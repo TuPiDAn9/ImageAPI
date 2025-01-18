@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light-theme {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+        header {
+            background: #1f1f1f;
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+        }
+        body.light-theme header {
+            background: #ffffff;
+            color: #121212;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: #e0e0e0;
+        }
+        body.light-theme .navbar-dark .navbar-nav .nav-link {
+            color: #121212;
+        }
+        .container {
+            margin-top: 2em;
+        }
+        footer {
+            background: #1f1f1f;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            margin-top: 2em;
+        }
+        body.light-theme footer {
+            background: #ffffff;
+            color: #121212;
+        }
+        .endpoint {
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 1em;
+            margin-bottom: 1.5em;
+            background-color: #1e1e1e;
+            transition: transform 0.3s ease;
+        }
+        .endpoint:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        body.light-theme .endpoint {
+            background-color: #ffffff;
+            border-color: #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        pre, code {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.light-theme pre, body.light-theme code {
+            background: #f8f8f8;
+            color: #121212;
+        }
+        #theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f1f1f;
+            color: #e0e0e0;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        #theme-toggle:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#121212;z-index:10000;display:flex;justify-content:center;align-items:center;">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <header>
+        <h1>API Documentation</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">API Docs</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="#introduction">Introduction</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#endpoints">Endpoints</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#authentication">Authentication</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#errors">Error Responses</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>This API allows you to upload, retrieve, and manage images. You must authenticate using a valid API token to interact with the endpoints.</p>
+        </section>
+
+        <section id="endpoints">
+            <h2>Endpoints</h2>
+
+            <div class="endpoint">
+                <h3>1. Upload Image</h3>
+                <p><strong>URL:</strong> <code>POST https://your-domain.com/upload</code></p>
+                <p><strong>Description:</strong> Upload an image to the server.</p>
+                <p><strong>Headers:</strong></p>
+                <ul>
+                    <li><code>Authorization</code>: Bearer &lt;API_TOKEN&gt;</li>
+                </ul>
+                <p><strong>Body:</strong> (multipart/form-data)</p>
+                <ul>
+                    <li><code>image</code>: The image file to upload (required).</li>
+                </ul>
+                <p><strong>Response:</strong></p>
+                <pre class="language-json"><code>{"message": "Image uploaded successfully!", "imageId": 1, "imagePath": "/uploads/unique-image-name.jpg"}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3>2. Fetch Images</h3>
+                <p><strong>URL:</strong> <code>GET https://your-domain.com/images?page=&lt;page_number&gt;&limit=&lt;items_per_page&gt;</code></p>
+                <p><strong>Description:</strong> Retrieve a paginated list of uploaded images.</p>
+                <p><strong>Headers:</strong></p>
+                <ul>
+                    <li><code>Authorization</code>: Bearer &lt;API_TOKEN&gt;</li>
+                </ul>
+                <p><strong>Response:</strong></p>
+                <pre class="language-json"><code>[{"id": 1, "name": "example.jpg", "path": "/uploads/example.jpg"}]</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3>3. Delete Image</h3>
+                <p><strong>URL:</strong> <code>DELETE https://your-domain.com/images/:id</code></p>
+                <p><strong>Description:</strong> Delete an image by its ID.</p>
+                <p><strong>Headers:</strong></p>
+                <ul>
+                    <li><code>Authorization</code>: Bearer &lt;API_TOKEN&gt;</li>
+                </ul>
+                <p><strong>Response:</strong></p>
+                <pre class="language-json"><code>{"message": "Image deleted successfully!"}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3>4. Upload Base64 Image</h3>
+                <p><strong>URL:</strong> <code>POST https://your-domain.com/upload-base64</code></p>
+                <p><strong>Description:</strong> Upload an image in Base64 format.</p>
+                <p><strong>Headers:</strong></p>
+                <ul>
+                    <li><code>Authorization</code>: Bearer &lt;API_TOKEN&gt;</li>
+                </ul>
+                <p><strong>Body:</strong> (JSON)</p>
+                <ul>
+                    <li><code>image</code>: Base64 encoded string of the image (required).</li>
+                </ul>
+                <p><strong>Response:</strong></p>
+                <pre class="language-json"><code>{"message": "Base64 image uploaded successfully!", "imageId": 2, "imagePath": "/uploads/base64-image.jpg"}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3>5. Fetch Base64 Images</h3>
+                <p><strong>URL:</strong> <code>GET https://your-domain.com/base64-images?page=&lt;page_number&gt;&limit=&lt;items_per_page&gt;</code></p>
+                <p><strong>Description:</strong> Retrieve a paginated list of Base64 images.</p>
+                <p><strong>Headers:</strong></p>
+                <ul>
+                    <li><code>Authorization</code>: Bearer &lt;API_TOKEN&gt;</li>
+                </ul>
+                <p><strong>Response:</strong></p>
+                <pre class="language-json"><code>[{"id": 2, "name": "base64-example.jpg", "path": "/uploads/base64-example.jpg"}]</code></pre>
+            </div>
+        </section>
+
+        <section id="authentication">
+            <h2>Authentication</h2>
+            <p>All requests require an <code>Authorization</code> header with the API token:</p>
+            <pre><code>Authorization: Bearer &lt;API_TOKEN&gt;</code></pre>
+        </section>
+
+        <section id="errors">
+            <h2>Error Responses</h2>
+            <p>Common error responses include:</p>
+            <ul>
+                <li><strong>403:</strong> Access denied. Invalid token.</li>
+                <li><strong>400:</strong> Bad request. Check your input.</li>
+                <li><strong>500:</strong> Internal server error.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 api.eshkrk.ru</p>
+        <p>Have any problems? Contact (contact) on Discord or thru mail (mail)</p>
+    </footer>
+
+    <button id="theme-toggle" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loader = document.getElementById("loader");
+            loader.style.display = "none";
+
+            const themeToggle = document.getElementById("theme-toggle");
+            themeToggle.addEventListener("click", () => {
+                document.body.classList.toggle("light-theme");
+                if (document.body.classList.contains("light-theme")) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
